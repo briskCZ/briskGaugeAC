@@ -1,7 +1,7 @@
 ##################################################
-# briskGauge
+# briskGaugeAC
 # 
-# Version - 0.0.5
+# Version - 1.0.0
 ##################################################
 
 import sys
@@ -12,9 +12,9 @@ import acsys
 import math
 
 if platform.architecture()[0] == "64bit":
-	sysdir = os.path.dirname(__file__)+'/stdlib64'########## přesunout to do složky thirdparty
+	sysdir = os.path.dirname(__file__)+'/thirdparty/stdlib64'
 else:
-	sysdir = os.path.dirname(__file__)+'/stdlib'########## přesunout to do složky thirdparty
+	sysdir = os.path.dirname(__file__)+'/thirdparty/stdlib'
 
 sys.path.insert(0, sysdir)
 os.environ['PATH'] = os.environ['PATH'] + ";."
@@ -23,7 +23,7 @@ from thirdparty.sim_info import info
 
 import ctypes
 
-app_path = "apps/python/briskGauge/"
+app_path = "apps/python/briskGaugeAC/"
 
 
 
@@ -41,9 +41,9 @@ def acMain(ac_version):
 	needle_path = "textures/needle/test_"
 	
 	
-	ac.initFont(0, "alarm clock", 0, 0) #TODO: sehnat LCD font který bude lepší
+	ac.initFont(0, "alarm clock", 0, 0) #TODO: find better LCD font
 	
-	app_window = ac.newApp("briskGauge")
+	app_window = ac.newApp("briskGaugeAC")
 	ac.setSize(app_window,600,240)
 	ac.setIconPosition(app_window, 0, -10000)
 	ac.setTitle(app_window, "")
@@ -117,7 +117,7 @@ def acMain(ac_version):
 	ac.setFontSize(blap_label, 17)
 	###################
 
-	return "briskGauge"
+	return "briskGaugeAC"
 
 def acUpdate(deltaT):
 	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, limiter, max_rpm
