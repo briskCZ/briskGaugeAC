@@ -34,7 +34,7 @@ def acMain(ac_version):
 	global app_window
 	global needle_path, rpm_gauge_path, speed_gauge_path, info_path, cluster_path
 	global rpm_gauge_label, rpm_needle_label, speed_gauge_label, speed_needle_label, speed_label, speed_unit_label, rpm_label, rpm_unit_label
-	global gear_label, clap_label, blap_label
+	global gear_label, clap_label, blap_label, plap_label
 	global flt_label, flp_label
 	
 	cluster_path = "textures/background/cluster"
@@ -112,15 +112,20 @@ def acMain(ac_version):
 	ac.setFontSize(clap_label, 17)
 	
 	blap_label = ac.addLabel(app_window, "")
-	ac.setPosition(blap_label, 243, 187)
+	ac.setPosition(blap_label, 243, 167)
 	ac.setCustomFont(blap_label, "alarm clock", 0, 0) 
 	ac.setFontSize(blap_label, 17)
+	
+	plap_label = ac.addLabel(app_window, "")
+	ac.setPosition(plap_label, 243, 187)
+	ac.setCustomFont(plap_label, "alarm clock", 0, 0) 
+	ac.setFontSize(plap_label, 17)
 	###################
 
 	return "briskGaugeAC"
 
 def acUpdate(deltaT):
-	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, limiter, max_rpm
+	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, plap_time, plap_sec, plap_min, limiter, max_rpm
 	global is_valid, this_lap, laps
 	ac.setBackgroundOpacity(app_window, 0.0)
 	
@@ -173,6 +178,10 @@ def acUpdate(deltaT):
 	blap_min = (blap_time // 1000) // 60
 	ac.setText(blap_label,"BST: " +"{:.0f}:{:06.3f}".format(blap_min,blap_sec))
 	
+	plap_time = ac.getCarState(0, acsys.CS.LastLap)
+	plap_sec = (plap_time / 1000) % 60
+	plap_min = (plap_time // 1000) // 60
+	ac.setText(plap_label,"PRV: " +"{:.0f}:{:06.3f}".format(plap_min,plap_sec))
 	
 	laps = ac.getCarState(0, acsys.CS.LapCount)
 	
