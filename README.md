@@ -11,7 +11,6 @@ Enable the app in the *"Options -> General -> UI Modules"* menu. Run the app fro
 
 ### TODO:
 - Menu button icon
-- Better "LCD" like font
 - Better font for the gauges
 - Tire temps/pressures/wear display
 - ABS/TC/headlights indicators

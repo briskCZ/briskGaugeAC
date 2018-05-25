@@ -34,14 +34,14 @@ def acMain(ac_version):
 	global app_window
 	global needle_path, rpm_gauge_path, speed_gauge_path, info_path, cluster_path
 	global rpm_gauge_label, rpm_needle_label, speed_gauge_label, speed_needle_label, speed_label, speed_unit_label, rpm_label, rpm_unit_label
-	global gear_label, clap_label, blap_label, plap_label
+	global gear_label, clap_label, blap_label, plap_label, delta_label
 	global flt_label, flp_label
 	
 	cluster_path = "textures/background/cluster"
 	needle_path = "textures/needle/test_"
 	
-	
-	ac.initFont(0, "alarm clock", 0, 0) #TODO: find better LCD font
+	ac.initFont(0, "Digital-7 Mono", 0, 0)
+	#Font credit: Sizenko Alexander, Style-7, http://www.styleseven.com
 	
 	app_window = ac.newApp("briskGaugeAC")
 	ac.setSize(app_window,600,240)
@@ -64,12 +64,12 @@ def acMain(ac_version):
 	rpm_label = ac.addLabel(app_window,"")
 	ac.setPosition(rpm_label, 78, 183)
 	ac.setFontSize(rpm_label, 30)
-	ac.setCustomFont(rpm_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(rpm_label, "Digital-7 Mono", 0, 0) 
 	
 	rpm_unit_label = ac.addLabel(app_window, "")
 	ac.setPosition(rpm_unit_label, 140, 210)
 	ac.setText(rpm_unit_label,"RPM")
-	ac.setCustomFont(rpm_unit_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(rpm_unit_label, "Digital-7 Mono", 0, 0) 
 	
 	rpm_needle_label = ac.addLabel(app_window, "")
 	ac.setSize(rpm_needle_label, 220, 220)
@@ -86,12 +86,12 @@ def acMain(ac_version):
 	speed_label = ac.addLabel(app_window,"")
 	ac.setPosition(speed_label, 440, 183)
 	ac.setFontSize(speed_label, 30)
-	ac.setCustomFont(speed_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(speed_label, "Digital-7 Mono", 0, 0) 
 	
 	speed_unit_label = ac.addLabel(app_window, "")
 	ac.setPosition(speed_unit_label, 495, 210)
 	ac.setText(speed_unit_label,"KM/H")
-	ac.setCustomFont(speed_unit_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(speed_unit_label, "Digital-7 Mono", 0, 0) 
 	
 	speed_needle_label = ac.addLabel(app_window, "")
 	ac.setSize(speed_needle_label, 220, 220)
@@ -100,32 +100,37 @@ def acMain(ac_version):
 	
 	################### GEAR STUFF
 	gear_label = ac.addLabel(app_window, "")
-	ac.setPosition(gear_label, 285, 50)
-	ac.setCustomFont(gear_label, "alarm clock", 0, 0) 
+	ac.setPosition(gear_label, 285, 47)
+	ac.setCustomFont(gear_label, "Digital-7 Mono", 0, 0) 
 	ac.setFontSize(gear_label, 50)
 	###################
 	
 	################### LAP TIMES
 	clap_label = ac.addLabel(app_window, "")
 	ac.setPosition(clap_label, 243, 207)
-	ac.setCustomFont(clap_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(clap_label, "Digital-7 Mono", 0, 0) 
 	ac.setFontSize(clap_label, 17)
 	
 	blap_label = ac.addLabel(app_window, "")
 	ac.setPosition(blap_label, 243, 167)
-	ac.setCustomFont(blap_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(blap_label, "Digital-7 Mono", 0, 0) 
 	ac.setFontSize(blap_label, 17)
 	
 	plap_label = ac.addLabel(app_window, "")
 	ac.setPosition(plap_label, 243, 187)
-	ac.setCustomFont(plap_label, "alarm clock", 0, 0) 
+	ac.setCustomFont(plap_label, "Digital-7 Mono", 0, 0) 
 	ac.setFontSize(plap_label, 17)
+	
+	delta_label = ac.addLabel(app_window, "")
+	ac.setPosition(delta_label, 243, 147)
+	ac.setCustomFont(delta_label, "Digital-7 Mono", 0, 0) 
+	ac.setFontSize(delta_label, 17)
 	###################
 
 	return "briskGaugeAC"
 
 def acUpdate(deltaT):
-	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, plap_time, plap_sec, plap_min, limiter, max_rpm
+	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, plap_time, plap_sec, plap_min, limiter, max_rpm, delta_time,
 	global is_valid, this_lap, laps
 	ac.setBackgroundOpacity(app_window, 0.0)
 	
@@ -171,17 +176,26 @@ def acUpdate(deltaT):
 	lap_time = ac.getCarState(0, acsys.CS.LapTime)
 	lap_sec = (lap_time / 1000) % 60
 	lap_min = (lap_time // 1000) // 60
-	ac.setText(clap_label,"LAP: " +"{:.0f}:{:06.3f}".format(lap_min,lap_sec))
+	ac.setText(clap_label,"CURR: " +"{:.0f}:{:06.3f}".format(lap_min,lap_sec))
 	
 	blap_time = ac.getCarState(0, acsys.CS.BestLap)
 	blap_sec = (blap_time / 1000) % 60
 	blap_min = (blap_time // 1000) // 60
-	ac.setText(blap_label,"BST: " +"{:.0f}:{:06.3f}".format(blap_min,blap_sec))
+	ac.setText(blap_label,"BEST: " +"{:.0f}:{:06.3f}".format(blap_min,blap_sec))
 	
 	plap_time = ac.getCarState(0, acsys.CS.LastLap)
 	plap_sec = (plap_time / 1000) % 60
 	plap_min = (plap_time // 1000) // 60
-	ac.setText(plap_label,"PRV: " +"{:.0f}:{:06.3f}".format(plap_min,plap_sec))
+	ac.setText(plap_label,"PREV: " +"{:.0f}:{:06.3f}".format(plap_min,plap_sec))
+	
+	delta_time = ac.getCarState(0, acsys.CS.PerformanceMeter)
+	ac.setText(delta_label,"DELT: " +"{:+.3f}".format(delta_time))
+	if delta_time > 0:
+		ac.setFontColor(delta_label, 1, 0.17, 0, 1)#red
+	if delta_time == 0:
+		ac.setFontColor(delta_label, 1, 1, 1, 1)#white
+	if delta_time < 0:
+		ac.setFontColor(delta_label, 0, 0.780, 0.145, 1)#green
 	
 	laps = ac.getCarState(0, acsys.CS.LapCount)
 	
