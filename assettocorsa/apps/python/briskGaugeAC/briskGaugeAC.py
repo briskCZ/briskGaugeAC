@@ -130,7 +130,7 @@ def acMain(ac_version):
 	return "briskGaugeAC"
 
 def acUpdate(deltaT):
-	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, plap_time, plap_sec, plap_min, limiter, max_rpm, delta_time,
+	global current_car, rpm, spin_rate, speed, lap_time, lap_sec, lap_min, gear, blap_time, blap_sec, blap_min, plap_time, plap_sec, plap_min, limiter, max_rpm, delta_time
 	global is_valid, this_lap, laps
 	ac.setBackgroundOpacity(app_window, 0.0)
 	
