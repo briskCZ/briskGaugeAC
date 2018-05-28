@@ -1,7 +1,7 @@
 ##################################################
 # briskGaugeAC
-# 
-# Version - 1.0.0
+# Author: Marek Nesvadba (briskCZ)
+# 2018
 ##################################################
 
 import sys
@@ -32,13 +32,13 @@ this_lap = -1
 
 def acMain(ac_version):
 	global app_window
-	global needle_path, rpm_gauge_path, speed_gauge_path, info_path, cluster_path
-	global rpm_gauge_label, rpm_needle_label, speed_gauge_label, speed_needle_label, speed_label, speed_unit_label, rpm_label, rpm_unit_label
+	global needle_path, rpm_gauge_path, speed_gauge_path, info_path, cluster_path, small_needle_path, fuel_gauge_path
+	global rpm_gauge_label, rpm_needle_label, speed_gauge_label, speed_needle_label, speed_label, speed_unit_label, rpm_label, rpm_unit_label, fuel_needle_label, fuel_gauge_label
 	global gear_label, clap_label, blap_label, plap_label, delta_label
-	global flt_label, flp_label
 	
 	cluster_path = "textures/background/cluster"
 	needle_path = "textures/needle/test_"
+	small_needle_path = "textures/small_needle/sn_"
 	
 	ac.initFont(0, "Digital-7 Mono", 0, 0)
 	#Font credit: Sizenko Alexander, Style-7, http://www.styleseven.com
@@ -51,9 +51,6 @@ def acMain(ac_version):
 	ac.setBackgroundTexture(app_window, app_path + cluster_path + ".png")
 	ac.setBackgroundOpacity(app_window, 0.0)
 
-	
-
-	
 	################### RPM STUFF
 	rpm_gauge_path = "textures/background/rpm"
 
@@ -126,6 +123,18 @@ def acMain(ac_version):
 	ac.setCustomFont(delta_label, "Digital-7 Mono", 0, 0) 
 	ac.setFontSize(delta_label, 17)
 	###################
+	
+	################### FUEL STUFF
+	fuel_gauge_path = "textures/background/fuel"
+
+	fuel_gauge_label = ac.addLabel(app_window, "")
+	ac.setSize(fuel_gauge_label, 120, 120)
+	ac.setPosition(fuel_gauge_label, 342, 3)
+	
+	fuel_needle_label = ac.addLabel(app_window, "")
+	ac.setSize(fuel_needle_label, 120, 120)
+	ac.setPosition(fuel_needle_label, 342, 3)
+	###################
 
 	return "briskGaugeAC"
 
@@ -159,7 +168,6 @@ def acUpdate(deltaT):
 		ac.setBackgroundTexture(rpm_gauge_label, app_path + rpm_gauge_path + "20k.png")
 	
 	
-	
 	#ac.setBackgroundTexture(rpm_needle_label, app_path + needle_path + "{:.0f}".format(rpm / spin_rate_rpm).zfill(3) + ".png")
 	ac.setBackgroundTexture(rpm_needle_label, app_path + needle_path + "{:.0f}".format(rpm / spin_rate_rpm) + ".png")
 	ac.setText(rpm_label,"{:.0f}".format(rpm))
@@ -171,6 +179,11 @@ def acUpdate(deltaT):
 	#ac.setBackgroundTexture(speed_needle_label, app_path + needle_path + "{:.0f}".format(speed / spin_rate_speed).zfill(3) + ".png")
 	ac.setBackgroundTexture(speed_needle_label, app_path + needle_path + "{:.0f}".format(speed / spin_rate_speed)+ ".png")
 	ac.setText(speed_label,"{:.0f}".format(speed))
+	
+	##################### FUEL
+	ac.setBackgroundTexture(fuel_gauge_label, app_path + fuel_gauge_path + ".png")
+	
+	ac.setBackgroundTexture(fuel_needle_label, app_path + small_needle_path + "{:.0f}".format(info.physics.fuel / (info.static.maxFuel / 90)) + ".png")
 	
 	###################LAPTIMES
 	lap_time = ac.getCarState(0, acsys.CS.LapTime)

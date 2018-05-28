@@ -14,4 +14,3 @@ Enable the app in the *"Options -> General -> UI Modules"* menu. Run the app fro
 - Better font for the gauges
 - Tire temps/pressures/wear display
 - ABS/TC/headlights indicators
-- Fuel gauge
